@@ -1,0 +1,14 @@
+[defaults]
+	inventory = ./hosts                    # 主机清单文件（相对项目路径）
+	remote_user = zhangsan                # 远程连接用户
+	private_key_file = ~/.ssh/id_rsa      # SSH 私钥路径
+	roles_path = ./roles                  # roles 文件夹路径（相对路径更适合项目）
+	host_key_checking = False             # 跳过 SSH 主机指纹确认（项目中常用于自动化）
+
+[privilege_escalation]
+	become = True
+	become_method = sudo
+	become_user = root
+	become_ask_pass=False
+[ssh_connection]
+	ssh_args = -C -o ControlMaster=auto -o ControlPersist=60s   #如果执行频繁，连接很多机器
