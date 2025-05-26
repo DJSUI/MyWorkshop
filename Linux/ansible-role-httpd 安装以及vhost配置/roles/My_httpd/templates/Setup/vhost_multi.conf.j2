@@ -1,0 +1,15 @@
+
+{% for vhost  in vhosts %}
+
+### vhostname: {{ vhost.name  }} servername: {{ vhost.servername  }}
+    <VirtualHost *:80>
+        DocumentRoot "/var/www/{{vhost.name}}"
+        ServerName  {{ vhost.servername }}
+    </VirtualHost>
+
+    <Directory "/var/www/{{vhost.name}}">
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+{% endfor %}

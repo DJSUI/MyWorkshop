@@ -1,0 +1,49 @@
+- name: 1-create direcotry 
+  file:
+    path: "/var/www/{{ item.name }}"
+    state: directory 
+    owner: root
+    group: root 
+    mode: "0755"
+    setype: httpd_sys_content_t
+  loop: "{{ vhosts }}"
+
+- name: 2-template  index 
+  template:
+    src: "Setup/index.html.j2"
+    dest: "/var/www/{{ item.name }}/index.html"
+    setype: httpd_sys_content_t
+  loop: "{{ vhosts }}"
+
+- name: 3-tempalte conf 
+  template:
+    src: "Setup/vhost_multi.conf.j2"
+    dest:  "/etc/httpd/conf.d/vhost_multi.conf"
+
+- name: 4-edit hosts 
+  blockinfile:
+    path: /etc/hosts 
+    marker: "# === {mark} VHOST ==="
+    block: |
+      {% for vhost in vhosts %}
+        {{ ansible_default_ipv4.address }}  {{ vhost.servername }}
+      {% endfor %}
+
+- name: 5-setup service
+  systemd:
+    name: httpd
+    state: restarted 
+    enabled: yes  
+
+
+      ## firewalld configure block 
+      #- name: 6-setup firewalld
+      #firewalld:
+      #service: http
+      #immediate:  yes 
+      #state: enabled
+      #permanent: yes 
+
+
+
+

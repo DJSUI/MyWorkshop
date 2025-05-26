@@ -1,0 +1,13 @@
+---
+# tasks file for My_httpd
+- name: Excute Install
+  debug:
+    msg: "var1 ->   {{ software  }}   var2 ->  {{ httpd_install }}"
+
+- name: Excute Install
+  include_tasks:  Install.yml
+  when: software == 'httpd' and (httpd_install | bool)
+
+- name: Excute Setup
+  include_tasks:   Setup.yml
+  when: software == 'httpd' and (httpd_setup | bool) 

@@ -1,0 +1,79 @@
+---
+- name: Interactive multi-step software installer
+  hosts: all
+  become: true
+  gather_facts: true
+
+  vars:
+    valid_software: ['httpd', 'mysql']
+
+  tasks:
+
+    - name: Ask user to choose software
+      pause:
+        prompt: "Please input software to configure [httpd or mysql]:"
+      register: software_input
+    #  turn to lowercase
+    - name: Set software choice
+      set_fact:
+        software: "{{ software_input.user_input | lower }}"
+
+    - name: Validate software input
+      fail:
+        msg: "Invalid input '{{ software }}'. Only 'httpd' or 'mysql' are allowed."
+      when: software not in valid_software
+
+    # === HTTPD ===
+    # Standar input  flow #########
+    - name: Ask whether to install httpd
+      pause:
+        prompt: "Execute httpd install? [yes or no]:"
+      # register is used for saveing the result  of excute,is the object type data
+      register: httpd_install_input
+      when: software == 'httpd'
+      # extract  String type inpute data  , then allocate that to new variable (may be String type)
+    - name: Set httpd install choice
+      set_fact:
+        httpd_install: "{{ httpd_install_input.user_input  }}"
+      when: software == 'httpd'
+    ###############################
+    
+    - name: Ask whether to setup httpd
+      pause:
+        prompt: "Execute httpd setup? [yes or no]:"
+      register: httpd_setup_input
+      when: software == 'httpd'
+
+    - name: Set httpd setup choice
+      set_fact:
+        httpd_setup: "{{ httpd_setup_input.user_input | lower }}"
+      when: software == 'httpd'
+
+
+    # === MYSQL ===
+    - name: Ask whether to install mysql
+      pause:
+        prompt: "Execute mysql install? [yes or no]:"
+      register: mysql_install_input
+      when: software == 'mysql'
+
+    - name: Set mysql install choice
+      set_fact:
+        mysql_install: "{{ mysql_install_input.user_input | lower }}"
+      when: software == 'mysql'
+
+    - name: Ask whether to initialize mysql
+      pause:
+        prompt: "Execute mysql initial? [yes or no]:"
+      register: mysql_initial_input
+      when: software == 'mysql'
+
+    - name: Set mysql initial choice
+      set_fact:
+        mysql_initial: "{{ mysql_initial_input.user_input | lower }}"
+      when: software == 'mysql'
+    ################force  priority ############################
+    - name: inclue-role-httpd
+      include_role:
+        name: My_httpd
+      when: software == 'httpd'

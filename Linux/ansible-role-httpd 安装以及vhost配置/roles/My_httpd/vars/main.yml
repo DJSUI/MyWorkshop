@@ -1,0 +1,15 @@
+---
+# vars file for My_httpd
+
+vhosts:
+  - name: vhost1 
+    servername: www.sdj1.com
+
+  - name: vhost2 
+    servername: www.sdj2.com
+
+  - name: vhost3 
+    servername: www.sdj3.com
+
+
+
