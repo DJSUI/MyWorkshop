@@ -1,1 +1,4 @@
+20250625
+# oracle cluod 的端口转发   如果挂许多的session  将所有session 写到一个shell 脚本里， 然后执行  
+# yes y   | xxx    可以对应一些解决一些交互问题 
 
