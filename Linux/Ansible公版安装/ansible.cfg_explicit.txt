@@ -5,8 +5,10 @@
         remote_user = sui
         #private_key_file = ~/.ssh/id_rsa
         roles_path = ./roles
-        # 跳过 SSH 主机指纹确认（项目中常用于自动化）
+        # 跳过 SSH 主机指纹确认（项目中常用于自动化），跳过询问是否加入konghous 
         host_key_checking = False
+        #  记录日志
+        log_path = /var/log/ansible.log
 
 [privilege_escalation]
         become = True
