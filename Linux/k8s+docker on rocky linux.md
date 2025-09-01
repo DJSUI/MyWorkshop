@@ -61,8 +61,10 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ### feature hotkey 
 ```
 sudo yum install bash-completion
-source <(kubectl completion bash)
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+source ~/.bashrc
 ```
+
 
 
 
