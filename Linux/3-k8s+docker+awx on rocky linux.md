@@ -33,7 +33,12 @@ kubectl get storageclass
 kubectl port-forward --address 0.0.0.0 svc/awx-demo-service -n awx 8080:80
 ``` 
 
+### check password of admin 
+``` 
+ kubectl get secret  -n awx
 
+kubectl -n awx get secret xxxxx -o go-template='{{range $k,$v := .data}}{{printf "%s: " $k}}{{if not $v}}{{$v}}{{else}}{{$v | base64decode}}{{end}}{{"\n"}}{{end}}'
+``` 
 
 
 
