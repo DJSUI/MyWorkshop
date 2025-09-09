@@ -1,1 +1,54 @@
-refer to https://computingforgeeks.com/install-and-configure-ansible-awx-on-centos/
+第一步：更新系统并安装依赖
+
+sudo dnf -y update
+sudo reboot
+
+# 安装 Git、jq 和 make
+sudo dnf install -y git jq make
+
+
+第二步：安装和配置 K3s
+安装 K3s
+使用官方脚本安装 K3s，它会自动配置并启动服务。
+curl -sfL https://get.k3s.io | sh -
+验证 K3s 安装
+sudo systemctl status k3s
+kubectl version --client
+配置防火墙规则
+sudo firewall-cmd --permanent --add-port=6443/tcp   # Kubernetes API server
+sudo firewall-cmd --permanent --zone=trusted --add-source=10.42.0.0/16 # Pods
+sudo firewall-cmd --permanent --zone=trusted --add-source=10.43.0.0/16 # Services
+sudo firewall-cmd --reload
+
+第三步：部署 AWX Operator
+克隆 AWX Operator 仓库
+git clone https://github.com/ansible/awx-operator.git
+cd awx-operator
+部署 Operator
+使用 make deploy 命令来部署 AWX Operator。这会创建一个名为 awx 的命名空间，并将 Operator 部署到其中
+# 获取最新的 AWX Operator 发布版本
+RELEASE_TAG=`curl -s https://api.github.com/repos/ansible/awx-operator/releases/latest | grep tag_name | cut -d '"' -f 4`
+git checkout $RELEASE_TAG
+# 部署 Operator
+make deploy
+验证 Operator 状态
+kubectl get pods -n awx
+
+
+第四步：安装 AWX 实例
+应用配置文件
+cd /awx-operator
+kubectl apply -f awx-demo.yaml -n awx
+
+第五步：获取 AWX 访问信息
+kubectl get pods -n awx -w
+获取管理员密码
+kubectl get secret awx-demo-admin-password -o jsonpath='{.data.password}' -n awx | base64 --decode
+获取访问端口
+kubectl get svc -n awx awx-demo-service -o jsonpath='{.spec.ports[0].nodePort}'
+
+
+
+
+
+
