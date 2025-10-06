@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: BootBasic
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: sui
+    password: 312711
+    url:   jdbc:postgresql://localhost:5432/testdb1
+
+mybatis:
+#  必须将mapper.xml 文件放到mapper 文件下，否则会出现unbond问题
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.sdj.bootbasic.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true

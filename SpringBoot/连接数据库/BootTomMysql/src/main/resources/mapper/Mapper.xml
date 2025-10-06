@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sdj.bootbasic.dao.UserDao">
+
+    <!-- 查询所有用户 -->
+    <select id="getUserTest" resultType="com.sdj.bootbasic.entity.User">
+        SELECT *
+        FROM user
+        WHERE id = 2
+    </select>
+
+    <!-- 根据用户ID查询用户 -->
+<!--    <select id="selectUserById" resultType="com.example.model.User" parameterType="int">-->
+<!--        SELECT *-->
+<!--        FROM users-->
+<!--        WHERE id = #{id}-->
+<!--    </select>-->
+
+    <!-- 插入用户 -->
+<!--    <insert id="insertUser" parameterType="com.example.model.User">-->
+<!--        INSERT INTO users (username, password)-->
+<!--        VALUES (#{username}, #{password})-->
+<!--    </insert>-->
+
+    <!-- 更新用户 -->
+<!--    <update id="updateUser" parameterType="com.example.model.User">-->
+<!--        UPDATE users-->
+<!--        SET username = #{username},-->
+<!--            password = #{password}-->
+<!--        WHERE id = #{id}-->
+<!--    </update>-->
+
+    <!-- 删除用户 -->
+<!--    <delete id="deleteUser" parameterType="int">-->
+<!--        DELETE-->
+<!--        FROM users-->
+<!--        WHERE id = #{id}-->
+<!--    </delete>-->
+
+</mapper>
