@@ -1,0 +1,42 @@
+
+provider "aws" {
+  region = "ap-northeast-1"
+
+}
+
+data "aws_security_group" "existing_sg" {
+  name = "let it come"
+
+}
+resource "aws_instance" "MyFirstInstance" {
+  ami                    = var.ami
+  instance_type          = var.instance_type
+  key_name               = var.key_name
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = [data.aws_security_group.existing_sg.id]
+  tags = {
+    Name = "SDJFirstInstance"
+  }
+  associate_public_ip_address = true
+
+  # Provisioner to install Apache 
+  provisioner "remote-exec" {
+    inline = [
+      "sudo  yum  update -y ",
+      "sudo yum install   -y httpd ",
+      "sudo systemctl start  httpd",
+      "sudo systemctl enable  httpd",
+      "sudo yum install -y nginx   "
+
+
+    ]
+    # SSH connection details  
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = file("/Users/sui/PG/VsCode/terraform-aws-ec2/ssh_key/kissme")
+      host        = self.public_ip
+    }
+  }
+
+}
