@@ -1,6 +1,6 @@
 # MyWorkshop
 some technology stack or doment would be sotred inside 
 ```
-hello This is  my  Workshop
+hello This is  my Workshop
 ```
 
