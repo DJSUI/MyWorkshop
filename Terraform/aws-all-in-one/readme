@@ -1,0 +1,9 @@
+The is the basic tempalte for building a EC2 instance  in 
+ a spicified subnet 
+ a spicified security gorup  
+ a spicified vpc 
+ a spicified route table  
+ a spicified subnet  
+  
+
+  
